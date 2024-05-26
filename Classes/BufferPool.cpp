@@ -49,9 +49,9 @@ void BufferPool::writePageToDisk(Page* page) {
     std::cout << "Escribiendo página " << page->page_id << " al disco." << std::endl;
 
     // Ejemplo de escritura en un archivo:
-    std::ofstream file("pagina_" + std::to_string(page->page_id) + ".txt");
+    std::ofstream file(page->block->pathDisk);
     if (file.is_open()) {
-        file << page->block->pathDisk;
+        file << page->data;
         file.close();
     }
     page->dirty = false; // Una vez escrita, la página ya no está sucia
