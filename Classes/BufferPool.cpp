@@ -1,5 +1,7 @@
 #include "BufferPool.h"
 
+#include <iomanip>
+
 // Obtiene un frame libre cuando el frame no tiene una página cargada en el puntero page
 Frame* BufferPool::getFreeFrame() {
     for (auto& frame : frames) {
@@ -14,9 +16,13 @@ Frame* BufferPool::getFreeFrame() {
 // y la elimina de la tabla de páginas sin no antes escribirla en disco si es necesario
 Frame* BufferPool::evictPage() {
     Frame* victim = chooseVictimFrame();
+    if(victim == nullptr) {
+        throw std::runtime_error("El BufferPool está lleno y no se puede cargar más páginas.");
+    }
     if (victim->page->dirty) {
         writePageToDisk(victim->page);
     }
+
     page_table.erase(victim->page->page_id);
     delete victim->page;
     victim->page = nullptr;
@@ -110,7 +116,6 @@ Frame* BufferPool::loadPage(int block_id) {
     if (frame == nullptr) {
         frame = evictPage();
     }
-
     // se designa al frame la nueva página
     frame->page = new Page(block_id);
     page_table[block_id] = frame;
@@ -118,5 +123,22 @@ Frame* BufferPool::loadPage(int block_id) {
     frame->page->last_used = getCurrentTime();
     std::cout << "Se cargó la página " << block_id << " en el frame " << frame->frame_id << ". Pin count: " << frame->page->pin_count << std::endl;
     return frame;
+}
+
+void BufferPool::showFrames() {
+    // imprime cada frame y el id de la página que contiene
+    std::cout << "############################################\n";
+    for (auto& frame : frames) {
+        std::cout << "#  Frame: " ;
+        std::cout << std::setw(5)<< frame->frame_id << "   ";
+        std::cout << "Page: " ;
+        if (frame->page != nullptr) {
+            std::cout << std::setw(4)<< frame->page->page_id << std::endl;
+        } else {
+            std::cout << std::setw(4)<< 'X'<< std::endl;
+        }
+    }
+
+    std::cout << "############################################\n";
 }
 

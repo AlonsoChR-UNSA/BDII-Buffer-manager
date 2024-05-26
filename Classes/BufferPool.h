@@ -52,7 +52,8 @@ public:
     // con un page_id y un bloque de datos
     Frame* loadPage(int block_id) ;
 
-
+    // imprime cada frame y el id de la página que contiene
+    void showFrames() ;
 
 };
 

@@ -24,6 +24,10 @@ public:
     void releasePage(int page_id, bool dirty = false) {
         buffer_pool->unpinPage(page_id, dirty);
     }
+
+    void showFrames() {
+        buffer_pool->showFrames();
+    }
 };
 
 #endif //BUFFERPOOLMANAGER_H
