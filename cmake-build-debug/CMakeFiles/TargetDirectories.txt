@@ -1,3 +1,3 @@
-/home/alonso/CLionProjects/untitled/cmake-build-debug/CMakeFiles/untitled.dir
-/home/alonso/CLionProjects/untitled/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/alonso/CLionProjects/untitled/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/alonso/Documents/UNSA_2024_A/BDII/BDII-Buffer-manager/cmake-build-debug/CMakeFiles/untitled.dir
+/home/alonso/Documents/UNSA_2024_A/BDII/BDII-Buffer-manager/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/alonso/Documents/UNSA_2024_A/BDII/BDII-Buffer-manager/cmake-build-debug/CMakeFiles/rebuild_cache.dir
