@@ -17,7 +17,8 @@ Frame* BufferPool::getFreeFrame() {
 Frame* BufferPool::evictPage() {
     Frame* victim = chooseVictimFrame();
     if(victim == nullptr) {
-        throw std::runtime_error("El BufferPool está lleno y no se puede cargar más páginas.");
+        std::cerr<<("El BufferPool está lleno y no se puede cargar más páginas.\n");
+        return nullptr;
     }
     if (victim->page->dirty) {
         writePageToDisk(victim->page);
@@ -98,7 +99,11 @@ Frame* BufferPool::pinPage(int block_id) {
 void BufferPool::unpinPage(int page_id, bool dirty ) {
     if (page_table.find(page_id) != page_table.end()) {
         Frame* frame = page_table[page_id];
-        frame->page->pin_count--;
+        if(frame->page->pin_count > 0) {
+            frame->page->pin_count--;
+        }else {
+            std::cout << "esta página ya está liberada" << std::endl;
+        }
         frame->page->dirty = dirty;
         std::cout << "Unpinned página " << page_id << " en el frame " << frame->frame_id << ". Pin count: " << frame->page->pin_count << ". Dirty: " << frame->page->dirty << std::endl;
         if (frame->page->pin_count == 0) {
@@ -115,6 +120,10 @@ Frame* BufferPool::loadPage(int block_id) {
     // si no hay frames libres, se elige una página para reemplazar
     if (frame == nullptr) {
         frame = evictPage();
+    }
+    if (frame == nullptr) {
+        std::cout << "No hay frames disponibles para cargar la página " << block_id << std::endl;
+        return nullptr;
     }
     // se designa al frame la nueva página
     frame->page = new Page(block_id);
