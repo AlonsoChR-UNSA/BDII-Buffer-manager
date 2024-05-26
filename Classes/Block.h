@@ -5,16 +5,16 @@
 // Clase Block
 class Block {
 public:
-    std::string data;
+    std::string pathDisk;
 
-    Block(const std::string& data) : data(data) {}
+    Block(const std::string& path) : pathDisk(path) {}
 
-    Block(std::ifstream& file) {
-        std::string line;
-        while (std::getline(file, line)) {
-            data += line + "\n";
-        }
-    }
+    // Block(std::ifstream& file) {
+        // std::string line;
+        // while (std::getline(file, line)) {
+        //     data += line + "\n";
+        // }
+    // }
 };
 
 #endif //BLOCK_H
