@@ -63,7 +63,7 @@ std::time_t BufferPool::getCurrentTime() {
 // Constructor de BufferPool
 BufferPool::BufferPool(int pool_size) : size(pool_size) {
     for (int i = 0; i < size; ++i) {
-        frames.push_back(new Frame(i));
+        frames.push_back(new Frame(i+1000));
     }
 }
 
@@ -75,16 +75,16 @@ BufferPool::~BufferPool() {
 }
 
 // pinPage() busca una página y la fija, si no está en el buffer pool, la carga
-Frame* BufferPool::pinPage(int page_id, Block* block ) {
+Frame* BufferPool::pinPage(int block_id) {
     // compara si la página está en el buffer pool
-    if (page_table.find(page_id) != page_table.end()) {
-        Frame* frame = page_table[page_id];
+    if (page_table.find(block_id) != page_table.end()) {
+        Frame* frame = page_table[block_id];
         frame->page->pin_count++;
         frame->page->last_used = getCurrentTime();
-        std::cout << "Pinned página " << page_id << " en el frame " << frame->frame_id << ". Pin count: " << frame->page->pin_count << std::endl;
+        std::cout << "Pinned página " << block_id << " en el frame " << frame->frame_id << ". Pin count: " << frame->page->pin_count << std::endl;
         return frame;
     } else {
-        return loadPage(page_id, block);
+        return loadPage(block_id);
     }
 }
 
@@ -103,7 +103,7 @@ void BufferPool::unpinPage(int page_id, bool dirty ) {
 
 // carga una página en el buffer pool
 // con un page_id y un bloque de datos
-Frame* BufferPool::loadPage(int page_id, Block* block) {
+Frame* BufferPool::loadPage(int block_id) {
     Frame* frame = getFreeFrame();
 
     // si no hay frames libres, se elige una página para reemplazar
@@ -112,11 +112,11 @@ Frame* BufferPool::loadPage(int page_id, Block* block) {
     }
 
     // se designa al frame la nueva página
-    frame->page = new Page(page_id, block);
-    page_table[page_id] = frame;
+    frame->page = new Page(block_id);
+    page_table[block_id] = frame;
     frame->page->pin_count = 1;
     frame->page->last_used = getCurrentTime();
-    std::cout << "Se cargó la página " << page_id << " en el frame " << frame->frame_id << ". Pin count: " << frame->page->pin_count << std::endl;
+    std::cout << "Se cargó la página " << block_id << " en el frame " << frame->frame_id << ". Pin count: " << frame->page->pin_count << std::endl;
     return frame;
 }
 

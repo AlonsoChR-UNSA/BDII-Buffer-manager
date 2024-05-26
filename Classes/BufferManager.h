@@ -16,8 +16,8 @@ public:
     }
 
     // solicita una página del buffer pool (pinPage)
-    Frame* requestPage(int page_id, Block* block = nullptr) {
-        return buffer_pool->pinPage(page_id, block);
+    Frame* requestPage(int block_id) {
+        return buffer_pool->pinPage(block_id);
     }
 
     // libera una página del buffer pool (unpinPage) determinando si está sucia o no

@@ -43,14 +43,14 @@ public:
     ~BufferPool() ;
 
     // pinPage() busca una página y la fija, si no está en memoria la carga
-    Frame* pinPage(int page_id, Block* block = nullptr) ;
+    Frame* pinPage(int block_id) ;
 
     // remueve el Pin de la página y se puede marcar como sucia si dirty = true
     void unpinPage(int page_id, bool dirty = false) ;
 
     // carga una página en el buffer pool
     // con un page_id y un bloque de datos
-    Frame* loadPage(int page_id, Block* block) ;
+    Frame* loadPage(int block_id) ;
 
 
 
