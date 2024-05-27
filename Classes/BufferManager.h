@@ -1,36 +1,48 @@
-#ifndef BUFFERPOOLMANAGER_H
+//
+//Autor: Yanira Suni 
+//
+#ifndef BUFFERPOOLMANAGER_H 
 #define BUFFERPOOLMANAGER_H
 
-// Clase BufferManager
+// Clase BufferManager: Maneja las operaciones del Buffer Pool, 
+// controla solicitudes de página y liberacion de paginas
 class BufferManager {
 private:
-    BufferPool* buffer_pool;
+    BufferPool* buffer_pool; //Puntero al BufferPool gestionado por el BufferManager
 
 public:
-    BufferManager(int buffer_pool_size) {
-        buffer_pool = new BufferPool(buffer_pool_size);
+    BufferManager(int buffer_pool_size) { //Constructor para inicializar el BufferManager con un tamaño específico para el BufferPool.
+        buffer_pool = new BufferPool(buffer_pool_size);//bufferPoolSize Tamaño del BufferPool.
     }
 
-    ~BufferManager() {
+    ~BufferManager() {//Destructor para liberar la memoria ocupada por el BufferPool
         delete buffer_pool;
     }
 
-    // solicita una página del buffer pool (pinPage)
+    /**
+    Solicita una página del BufferPool y realiza pinPage.
+    Parametro: Identificador del bloque a solicitar.
+    Retorna: Puntero al Frame que contiene la página solicitada.
+    */
     Frame* requestPage(int block_id) {
         return buffer_pool->pinPage(block_id);
     }
 
-    // libera una página del buffer pool (unpinPage) determinando si está sucia o no
+    /**
+    Libera una página del BufferPool, determinando si está sucia o no.
+    Parametros: pageId Identificador de la página a liberar,dirty Indica si la página está sucia
+    */
     void releasePage(int page_id, bool dirty = false) {
         buffer_pool->unpinPage(page_id, dirty);
     }
 
-    // nuevo método para obtener una página por su ID
+    // Obtiene una página del BufferPool por su ID.
     Page* getPage(int page_id) {
         return buffer_pool->getPage(page_id);
     }
 
-    void showFrames() {
+    //Muestra la información de todos los frames en el BufferPool.
+    void showFrames() { 
         buffer_pool->showFrames();
     }
 };
