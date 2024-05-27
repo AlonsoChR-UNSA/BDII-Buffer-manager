@@ -1,21 +1,23 @@
+//Autor: Yanira Suni 
 #ifndef FRAME_H
 #define FRAME_H
 #include <iostream>
 
 #include "Page.h"
 
-// Clase Frame
+// Clase Frame: Representa un frame en el buffer pool, que puede contener una página.
 class Frame {
 public:
-    int frame_id;
-    Page* page;
+    int frame_id; //Identificador único del frame
+    Page* page; //Puntero a la página almacenada en el frame
 
-    Frame(int id) : frame_id(id), page(nullptr) {}
+    Frame(int id) : frame_id(id), page(nullptr) {} //Constructor para inicializar un frame con un ID específico
 
-    ~Frame() {
+    ~Frame() { //Destructor para liberar la memoria ocupada por la página
         delete page;
     }
-    void showPage() {
+
+    void showPage() { //Muestra la información de la página almacenada en el frame.
         std::cout << "== Frame Info ==================================\n";
         std::cout << "Frame: " << frame_id << std::endl;
         std::cout << "Page: " << page->page_id << std::endl;
