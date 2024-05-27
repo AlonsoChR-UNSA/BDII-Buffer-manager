@@ -25,6 +25,11 @@ public:
         buffer_pool->unpinPage(page_id, dirty);
     }
 
+    // nuevo método para obtener una página por su ID
+    Page* getPage(int page_id) {
+        return buffer_pool->getPage(page_id);
+    }
+
     void showFrames() {
         buffer_pool->showFrames();
     }
