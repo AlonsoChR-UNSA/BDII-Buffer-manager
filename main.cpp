@@ -85,7 +85,7 @@ int main() {
                 int page_id;
                 std::cout << "Ingrese el page_id: ";
                 std::cin >> page_id;
-                buffer_manager.releasePage(page_id);
+                buffer_manager.releasePage(page_id,buffer_manager.getPage(page_id)->dirty);
                 break;
             case 3:
                 buffer_manager.showFrames();
