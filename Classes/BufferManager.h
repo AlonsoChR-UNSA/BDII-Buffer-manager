@@ -3,7 +3,7 @@
 //
 #ifndef BUFFERPOOLMANAGER_H 
 #define BUFFERPOOLMANAGER_H
-
+#include "BufferPool.h"
 // Clase BufferManager: Maneja las operaciones del Buffer Pool, 
 // controla solicitudes de página y liberacion de paginas
 class BufferManager {

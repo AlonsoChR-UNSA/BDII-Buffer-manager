@@ -1,6 +1,11 @@
+//
+// AUTOR: Yanira Suni & Alonso Chullunquia
+//
 #include "BufferPool.h"
 
 #include <iomanip>
+
+// Yanira
 
 // Obtiene un frame libre cuando el frame no tiene una página cargada en el puntero page
 Frame* BufferPool::getFreeFrame() {
@@ -12,6 +17,8 @@ Frame* BufferPool::getFreeFrame() {
     return nullptr;
 }
 
+
+// obtiene la página con el page_id
 Page* BufferPool::getPage(int page_id) {
     if (page_table.find(page_id) != page_table.end()) {
         return page_table[page_id]->page;
@@ -74,7 +81,7 @@ std::time_t BufferPool::getCurrentTime() {
 
 
 // CONSTRUCTOR
-
+// Alonso
 
 // Constructor de BufferPool
 BufferPool::BufferPool(int pool_size) : size(pool_size) {
@@ -143,6 +150,7 @@ Frame* BufferPool::loadPage(int block_id) {
     return frame;
 }
 
+// imprime cada frame y el id de la página que contiene
 void BufferPool::showFrames() {
     // imprime cada frame y el id de la página que contiene
     std::cout << "############################################\n";
@@ -160,7 +168,6 @@ void BufferPool::showFrames() {
             std::cout << std::setw(4)<< 'X'<< std::endl;
         }
     }
-
     std::cout << "############################################\n";
 }
 

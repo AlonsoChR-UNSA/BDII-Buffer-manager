@@ -1,3 +1,6 @@
+//
+// AUTOR: Yanira Suni & Alonso Chullunquia
+//
 #include <iostream>
 #include <fstream>
 #include "Classes/Page.h"
