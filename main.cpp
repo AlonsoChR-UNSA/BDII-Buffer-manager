@@ -1,22 +1,18 @@
 #include <iostream>
-#include <vector>
-#include <unordered_map>
-#include <list>
 #include <fstream>
-#include <chrono>
-#include <ctime>
-#include "Classes/BufferPool.h"
-#include "Classes/Block.h"
 #include "Classes/Page.h"
 #include "Classes/Frame.h"
 #include "Classes/BufferManager.h"
 
 
 int main() {
+    // inicializando buffer manager
     BufferManager buffer_manager(3);
 
+    // inicializando mainFrame puntero a Frame para mostrar la página
     Frame* mainFrame;
-    // menú para solicitar páginas (lectura y escritura (dirty true y modificar data)), liberar páginas, mostrar páginas y salir
+
+    // menú de acciones
     int option;
     do {
         std::cout << "1. Solicitar página\n";
@@ -25,16 +21,22 @@ int main() {
         std::cout << "4. Salir\n";
         std::cin >> option;
         switch (option) {
+
+            // solicitar página
             case 1:
                 int block_id;
                 std::cout << "Ingrese el block_id: ";
                 std::cin >> block_id;
                 mainFrame = buffer_manager.requestPage(block_id);
+
+                // si la página no se pudo cargar por falta de espacio
                 if(mainFrame == nullptr) {
                     std::cout << "No se pudo cargar la página\n";
                     break;
                 }
+
                 mainFrame->showPage();
+                // modificar la data
                 std::cout << "desea modificar la data? (1: si, 0: no): ";
                 int mod;
                 std::cin >> mod;
@@ -48,15 +50,21 @@ int main() {
                     mainFrame->page->dirty = true;
                 }
                 break;
+
+            // liberar página
             case 2:
                 int page_id;
                 std::cout << "Ingrese el page_id: ";
                 std::cin >> page_id;
                 buffer_manager.releasePage(page_id,buffer_manager.getPage(page_id)->dirty);
                 break;
+
+            // mostrar páginas
             case 3:
                 buffer_manager.showFrames();
                 break;
+
+            // salir
             case 4:
                 break;
             default:
