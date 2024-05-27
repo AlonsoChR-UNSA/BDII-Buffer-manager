@@ -151,7 +151,11 @@ void BufferPool::showFrames() {
         std::cout << std::setw(5)<< frame->frame_id << "   ";
         std::cout << "Page: " ;
         if (frame->page != nullptr) {
-            std::cout << std::setw(4)<< frame->page->page_id << std::endl;
+            std::cout << std::setw(4)<< frame->page->page_id ;
+            std::cout << "     Pin count: " ;
+            std::cout << std::setw(4)<< frame->page->pin_count << "  ";
+            std::cout << "Dirty: " ;
+            std::cout << std::setw(4)<< frame->page->dirty << std::endl;
         } else {
             std::cout << std::setw(4)<< 'X'<< std::endl;
         }
