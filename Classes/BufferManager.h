@@ -25,6 +25,11 @@ public:
     Retorna: Puntero al Frame que contiene la página solicitada.
     */
     Frame* requestPage(int block_id) {
+        Page* page = getPage(block_id);
+        if(page != nullptr && page->dirty == 1) {
+            std::cerr << "La página solicitada está sucia" << std::endl;
+            return nullptr;
+        }
         return buffer_pool->pinPage(block_id);
     }
 
