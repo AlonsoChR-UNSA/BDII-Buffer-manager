@@ -12,6 +12,15 @@ Frame* BufferPool::getFreeFrame() {
     return nullptr;
 }
 
+Page* BufferPool::getPage(int page_id) {
+    if (page_table.find(page_id) != page_table.end()) {
+        return page_table[page_id]->page;
+    } else {
+        std::cout << "La página " << page_id << " no está en el buffer pool." << std::endl;
+        return nullptr;
+    }
+}
+
 // evictPage() elige una página para reemplazarla en el buffer pool
 // y la elimina de la tabla de páginas sin no antes escribirla en disco si es necesario
 Frame* BufferPool::evictPage() {
